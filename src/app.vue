@@ -1,21 +1,23 @@
 <template>
   <div id="app">
-    <SearchBar @search="handleSearch" />
-    <p v-if="loading">loading</p>
-    <p v-if="errorMessage">{{ errorMessage }}</p>
-    <ul>
-      <li v-for="(item, key) in results" :key="key">{{ item.name }}</li>
-    </ul>
+    <header>
+      <SearchBar @search="handleSearch" />
+    </header>
+    <div class="content">
+      <MeteoriteList :data="results" />
+    </div>
   </div>
 </template>
 
 <script>
 import SearchBar from './components/search-bar'
+import MeteoriteList from './components/meteorite-list'
 
 export default {
   name: 'App',
   components: {
-    SearchBar
+    SearchBar,
+    MeteoriteList
   },
   data: () => ({
     meteorites: [],
@@ -24,7 +26,7 @@ export default {
     loading: false
   }),
   async created() {
-    this.meteorites = await this.getMeteorites()
+    this.meteorites = await this.getMeteorites({ limit: 10 })
   },
   computed: {
     results() {
@@ -45,15 +47,18 @@ export default {
     handleSearch(value) {
       this.searchValue = value.toLowerCase()
     },
-    async getMeteorites() {
-      const url = `https://data.nasa.gov/api/id/gh4g-9sfh.json?&$limit=10&$offset=1`
-      this.loading = true
+    async getMeteorites({ limit, offset = 0 }) {
+      let url = `https://data.nasa.gov/api/id/gh4g-9sfh.json?`
+      url += `&$limit=${limit}`
+      url += `&$offset=${offset}`
 
       try {
+        this.loading = true
         const data = await fetch(url).then(res => res.json())
         this.loading = false
         return data
       } catch (error) {
+        console.error(error)
         this.errorMessage = 'Failed to retrieve the data. Please try again.'
         this.loading = false
       }
@@ -83,5 +88,16 @@ html {
 body {
   box-sizing: border-box;
   background: #eee;
+}
+
+header {
+  margin-bottom: 3rem;
+}
+</style>
+
+.<style lang="scss" scoped>
+.content {
+  margin: 0 auto;
+  width: 80%;
 }
 </style>
