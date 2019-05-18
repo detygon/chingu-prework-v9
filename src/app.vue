@@ -4,14 +4,14 @@
       <SearchBar @search="handleSearch" />
     </header>
     <div class="content">
-      <MeteoriteList :data="results" />
+      <MeteoriteList :data="results" @showMore="handleShowMore" />
     </div>
   </div>
 </template>
 
 <script>
-import SearchBar from './components/search-bar'
-import MeteoriteList from './components/meteorite-list'
+import SearchBar from './components/search-bar.vue'
+import MeteoriteList from './components/meteorite-list.vue'
 
 export default {
   name: 'App',
@@ -47,6 +47,10 @@ export default {
     handleSearch(value) {
       this.searchValue = value.toLowerCase()
     },
+    async handleShowMore({ limit, offset }) {
+      const data = await this.getMeteorites({ limit, offset })
+      this.meteorites = [...this.meteorites, ...data]
+    },
     async getMeteorites({ limit, offset = 0 }) {
       let url = `https://data.nasa.gov/api/id/gh4g-9sfh.json?`
       url += `&$limit=${limit}`
@@ -58,7 +62,6 @@ export default {
         this.loading = false
         return data
       } catch (error) {
-        console.error(error)
         this.errorMessage = 'Failed to retrieve the data. Please try again.'
         this.loading = false
       }

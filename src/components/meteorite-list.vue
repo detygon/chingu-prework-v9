@@ -16,7 +16,7 @@
         <tbody class="data-table-content">
           <tr
             class="data-table-row"
-            v-for="(datum, index) in data"
+            v-for="(datum, index) in results"
             :key="index"
           >
             <td
@@ -34,13 +34,18 @@
       <span class="rows-selection">
         <span class="rows-selection-label">Rows per page:</span>
         <span class="rows-selection-dropdown">
-          10 <i class="material-icons">arrow_drop_down</i>
+          {{ perPage }} <i class="material-icons">arrow_drop_down</i>
         </span>
       </span>
-      <span class="rows-amount">1-10 of 100</span>
+      <span class="rows-amount">
+        {{ this.rowStart }}-{{ this.rowStart + this.perPage }} of
+        {{ totalItems }}
+      </span>
       <span class="table-pagination">
-        <i class="material-icons">keyboard_arrow_left</i>
-        <i class="material-icons">keyboard_arrow_right</i>
+        <i class="material-icons" :disabled="hasPrevious" @click="showPrevious">
+          keyboard_arrow_left
+        </i>
+        <i class="material-icons" @click="showMore">keyboard_arrow_right</i>
       </span>
     </footer>
   </section>
@@ -56,6 +61,8 @@ export default {
     }
   },
   data: () => ({
+    perPage: 10,
+    currentPage: 0,
     columns: [
       { name: 'id', label: 'ID' },
       { name: 'name', label: 'Name' },
@@ -67,6 +74,26 @@ export default {
       { name: 'geolocation', label: 'Geolocation' }
     ]
   }),
+  computed: {
+    hasNext() {
+      const start = (this.currentPage + 1) * this.perPage
+      return !!this.data.slice(start, this.perPage + start).length
+    },
+    hasPrevious() {
+      const start = (this.currentPage - 1) * this.perPage
+      return !!this.data.slice(start, this.perPage + start).length
+    },
+    rowStart() {
+      return this.currentPage * this.perPage
+    },
+    totalItems() {
+      return this.data.length
+    },
+    results() {
+      const start = this.currentPage * this.perPage
+      return this.data.slice(start, this.perPage + start)
+    }
+  },
   methods: {
     itemValue(item, column) {
       const columnName = column.name.toLowerCase()
@@ -76,6 +103,20 @@ export default {
       }
 
       return item[columnName]
+    },
+    showMore() {
+      if (!this.hasNext) {
+        this.$emit('showMore', { offset: this.totalItems, limit: this.perPage })
+      }
+
+      this.currentPage += 1
+    },
+    showPrevious() {
+      if (!this.hasPrevious) {
+        return
+      }
+
+      this.currentPage -= 1
     }
   }
 }
