@@ -58,6 +58,10 @@ export default {
     data: {
       type: Array,
       default: () => []
+    },
+    disableFetch: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -105,7 +109,8 @@ export default {
       return item[columnName]
     },
     showMore() {
-      if (!this.hasNext) {
+      // Disable data fetch if the user has run a search
+      if (!this.hasNext && !this.disableFetch) {
         this.$emit('showMore', { offset: this.totalItems, limit: this.perPage })
       }
 
