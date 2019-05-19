@@ -11,14 +11,14 @@
       <div class="loader-wrapper" v-show="loading">
         <TableLoader />
       </div>
-      <ErrorMessage v-show="!!errorMessage">
+      <ErrorMessage v-show="errorMessage">
         {{ errorMessage }}
       </ErrorMessage>
       <MeteoriteList
         :data="results"
         :disableFetch="!!this.searchValue.length"
         @showMore="handleShowMore"
-        v-show="!loading"
+        v-show="!loading && !errorMessage"
       />
     </div>
   </div>
