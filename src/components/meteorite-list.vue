@@ -69,7 +69,7 @@ export default {
       { name: 'id', label: 'ID' },
       { name: 'name', label: 'Name' },
       { name: 'nametype', label: 'Name Type' },
-      { name: 'rectclass', label: 'Rect Class' },
+      { name: 'recclass', label: 'Rect Class' },
       { name: 'mass', label: 'Mass (g)' },
       { name: 'fall', label: 'Fell' },
       { name: 'year', label: 'Year' },
