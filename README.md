@@ -34,5 +34,5 @@ yarn run lint
 
 ### Credits
 
-API Endpoint: NASA Meteorite [https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh](dataset).
-Material Table: Inspired by this [https://codepen.io/SamanthaNguyen/pen/akwEAB](Codepen)
+- API Endpoint: NASA Meteorite [https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh](dataset).
+- Material Table: Inspired by this [https://codepen.io/SamanthaNguyen/pen/akwEAB](Codepen)
