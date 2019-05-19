@@ -107,8 +107,7 @@ export default {
       }
 
       if (columnName === 'year') {
-        const date = new Date(item[columnName])
-        return formatDate(date)
+        return formatDate(item[columnName])
       }
 
       return item[columnName]
