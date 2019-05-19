@@ -14,6 +14,11 @@
           </tr>
         </thead>
         <tbody class="data-table-content">
+          <slot v-if="!results.length">
+            <span>
+              No results
+            </span>
+          </slot>
           <tr
             class="data-table-row"
             v-for="(datum, index) in results"
@@ -166,12 +171,6 @@ export default {
       }
       &:last-child {
         padding: 0 24px 0 0;
-      }
-      &.datatype-string {
-        text-align: left;
-      }
-      &.datatype-numeric {
-        text-align: right;
       }
     }
   }
