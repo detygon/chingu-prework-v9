@@ -1,7 +1,10 @@
 <template>
   <div :class="$style.searchBar">
     <form @submit.prevent="onSubmit" :class="$style.searchForm">
-      <input v-model="searchTerm" :class="$style.searchInput" />
+      <input v-model="searchTerm" :class="$style.searchInput" list="terms" />
+      <datalist id="terms" class="datalist">
+        <option v-for="(item, key) in searchHistory" :key="key" :value="item" />
+      </datalist>
       <button type="submit" :class="$style.submitBtn">Search</button>
     </form>
   </div>
@@ -12,11 +15,14 @@ export default {
   name: 'SearchBar',
   data() {
     return {
-      searchTerm: ''
+      searchTerm: '',
+      searchHistory: []
     }
   },
   methods: {
     onSubmit() {
+      // Limits to the last 10 searches
+      this.searchHistory = [...this.searchHistory, this.searchTerm].slice(-10)
       this.$emit('search', this.searchTerm)
     }
   }
