@@ -1,5 +1,5 @@
 <template>
-  <section class="md-ui component-data-table">
+  <section class="data-table">
     <div class="main-table-wrapper">
       <table class="main-table-content">
         <thead class="data-table-header">
@@ -42,9 +42,7 @@
         {{ totalItems }}
       </span>
       <span class="table-pagination">
-        <i class="material-icons" :disabled="hasPrevious" @click="showPrevious">
-          keyboard_arrow_left
-        </i>
+        <i class="material-icons" @click="showPrevious">keyboard_arrow_left</i>
         <i class="material-icons" @click="showMore">keyboard_arrow_right</i>
       </span>
     </footer>
@@ -128,7 +126,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.md-ui.component-data-table {
+.data-table {
   background: #fff;
   border: 0;
   border-radius: 2px;
@@ -150,6 +148,7 @@ export default {
   border-spacing: 0;
   width: 100%;
   overflow: hidden;
+
   tr {
     border-bottom: 1px solid #e0e0e0;
     td {
@@ -203,20 +202,6 @@ export default {
     td {
       color: rgba(0, 0, 0, 0.87);
       font-weight: 500;
-
-      input[type='text'] {
-        background: transparent;
-        border: 0;
-        color: #212121;
-        font-family: 'Roboto', sans-serif;
-        font-size: 13px;
-        font-weight: 400;
-        height: 40px;
-
-        &::placeholder {
-          color: rgba(0, 0, 0, 0.38);
-        }
-      }
     }
   }
 }
