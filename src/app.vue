@@ -1,9 +1,11 @@
 <template>
   <div id="app">
     <header>
+      <NavBar />
       <SearchBar @search="handleSearch" />
     </header>
     <div class="content">
+      <div v-if="errorMessage">{{ errorMessage }}</div>
       <div v-if="loading">
         We are fetching the data
       </div>
@@ -18,6 +20,7 @@
 
 <script>
 import SearchBar from './components/search-bar.vue'
+import NavBar from './components/nav-bar.vue'
 import MeteoriteList from './components/meteorite-list.vue'
 import request from './utils/request'
 
@@ -25,7 +28,8 @@ export default {
   name: 'App',
   components: {
     SearchBar,
-    MeteoriteList
+    MeteoriteList,
+    NavBar
   },
   data: () => ({
     meteorites: [],

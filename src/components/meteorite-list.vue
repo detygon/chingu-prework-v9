@@ -135,6 +135,7 @@ export default {
   font-size: 13px;
   font-weight: 400;
   width: auto;
+  margin-bottom: 1rem;
 }
 
 .main-table-wrapper {
