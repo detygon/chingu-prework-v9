@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import formatDate from '../utils/format-date'
+
 export default {
   name: 'MeteoriteList',
   props: {
@@ -102,6 +104,11 @@ export default {
 
       if (typeof item[columnName] === 'object') {
         return Object.values(item[columnName]).join(',')
+      }
+
+      if (columnName === 'year') {
+        const date = new Date(item[columnName])
+        return formatDate(date)
       }
 
       return item[columnName]
