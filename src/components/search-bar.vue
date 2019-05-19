@@ -1,7 +1,12 @@
 <template>
   <div :class="$style.searchBar">
     <form @submit.prevent="onSubmit" :class="$style.searchForm">
-      <input v-model="searchTerm" :class="$style.searchInput" list="terms" />
+      <input
+        placeholder="Type a name.."
+        v-model="searchTerm"
+        :class="$style.searchInput"
+        list="terms"
+      />
       <datalist id="terms" class="datalist">
         <option v-for="(item, key) in searchHistory" :key="key" :value="item" />
       </datalist>
@@ -51,8 +56,7 @@ export default {
 }
 
 .submitBtn {
-  background: linear-gradient(to right, #51658b, #204d85);
-  background: #204d85;
+  background: #451fce;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border: none;
   display: inline-block;
