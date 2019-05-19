@@ -27,7 +27,9 @@ export default {
   methods: {
     onSubmit() {
       // Limits to the last 10 searches
-      this.searchHistory = [...this.searchHistory, this.searchTerm].slice(-10)
+      if (this.searchHistory.indexOf(this.searchTerm) === -1) {
+        this.searchHistory = [...this.searchHistory, this.searchTerm].slice(-10)
+      }
       this.$emit('search', this.searchTerm)
     }
   }
