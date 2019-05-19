@@ -14,6 +14,7 @@ export default {}
   height: 100%;
   min-height: 50rem;
   width: 100%;
+  overflow: hidden;
 
   &::after {
     display: block;
