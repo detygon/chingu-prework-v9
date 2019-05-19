@@ -1,11 +1,7 @@
 <template>
   <div :class="$style.searchBar">
     <form @submit.prevent="onSubmit" :class="$style.searchForm">
-      <input
-        placeholder="Search..."
-        v-model="searchTerm"
-        :class="$style.searchInput"
-      />
+      <input v-model="searchTerm" :class="$style.searchInput" />
       <button type="submit" :class="$style.submitBtn">Search</button>
     </form>
   </div>
@@ -29,7 +25,7 @@ export default {
 
 <style lang="scss" module>
 .searchBar {
-  box-shadow: 0 0 1rem 0.5rem rgba(#000, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   background: #fff;
   padding: 3rem;
 }
@@ -42,23 +38,16 @@ export default {
 }
 
 .searchInput {
-  font-size: 2.4rem;
+  font-size: 2rem;
   border: 2px solid #ddd;
   outline: none;
   padding: 1rem;
-  transition: all 0.2s;
-  transition-delay: 0.1s;
 }
 
 .submitBtn {
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    color-stop(0.05, #7892c2),
-    color-stop(1, #476e9e)
-  );
-  background-color: #7892c2;
+  background: linear-gradient(to right, #51658b, #204d85);
+  background: #204d85;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border: none;
   display: inline-block;
   cursor: pointer;
