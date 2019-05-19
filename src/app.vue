@@ -1,18 +1,24 @@
 <template>
   <div id="app">
+    <SnackBar :visible="loading">
+      Please wait a second..
+    </SnackBar>
     <header>
       <NavBar />
       <SearchBar @search="handleSearch" />
     </header>
     <div class="content">
-      <div v-if="errorMessage">{{ errorMessage }}</div>
-      <div v-if="loading">
-        We are fetching the data
+      <div class="loader-wrapper" v-show="loading">
+        <TableLoader />
       </div>
+      <ErrorMessage v-show="!!errorMessage">
+        {{ errorMessage }}
+      </ErrorMessage>
       <MeteoriteList
         :data="results"
         :disableFetch="!!this.searchValue.length"
         @showMore="handleShowMore"
+        v-show="!loading"
       />
     </div>
   </div>
@@ -21,15 +27,21 @@
 <script>
 import SearchBar from './components/search-bar.vue'
 import NavBar from './components/nav-bar.vue'
+import SnackBar from './components/snackbar.vue'
 import MeteoriteList from './components/meteorite-list.vue'
 import request from './utils/request'
+import TableLoader from './components/table-loader.vue'
+import ErrorMessage from './components/error-message.vue'
 
 export default {
   name: 'App',
   components: {
     SearchBar,
     MeteoriteList,
-    NavBar
+    NavBar,
+    SnackBar,
+    TableLoader,
+    ErrorMessage
   },
   data: () => ({
     meteorites: [],
@@ -97,16 +109,20 @@ html {
   // Define what 1rem is. 1rem => 10px
   font-size: 62.5%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    Ubuntu, Cantarell, 'Roboto', 'Helvetica Neue', sans-serif;
 }
 
 body {
   box-sizing: border-box;
-  background: #eee;
+  background: #efefef;
 }
 
 header {
   margin-bottom: 3rem;
+}
+
+#app {
+  position: relative;
 }
 </style>
 
@@ -114,6 +130,11 @@ header {
 .content {
   margin: 0 auto;
   width: 80%;
+}
+
+.loader-wrapper {
+  height: 55rem;
+  margin: 0 auto;
 }
 
 @media (max-width: 900px) {
