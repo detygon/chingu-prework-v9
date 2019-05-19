@@ -4,7 +4,14 @@
       <SearchBar @search="handleSearch" />
     </header>
     <div class="content">
-      <MeteoriteList :data="results" @showMore="handleShowMore" />
+      <div v-if="loading">
+        We are fetching the data
+      </div>
+      <MeteoriteList
+        :data="results"
+        :disableFetch="!!this.searchValue.length"
+        @showMore="handleShowMore"
+      />
     </div>
   </div>
 </template>
@@ -12,6 +19,7 @@
 <script>
 import SearchBar from './components/search-bar.vue'
 import MeteoriteList from './components/meteorite-list.vue'
+import request from './utils/request'
 
 export default {
   name: 'App',
@@ -58,7 +66,7 @@ export default {
 
       try {
         this.loading = true
-        const data = await fetch(url).then(res => res.json())
+        const data = await request(url)
         this.loading = false
         return data
       } catch (error) {
@@ -102,5 +110,11 @@ header {
 .content {
   margin: 0 auto;
   width: 80%;
+}
+
+@media (max-width: 900px) {
+  .content {
+    width: 100%;
+  }
 }
 </style>
