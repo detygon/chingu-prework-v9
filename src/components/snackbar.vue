@@ -1,11 +1,3 @@
-<template>
-  <transition name="fade">
-    <div class="snackbar" v-if="visible">
-      <slot></slot>
-    </div>
-  </transition>
-</template>
-
 <script>
 export default {
   name: 'SnackBar',
@@ -14,6 +6,14 @@ export default {
   }
 }
 </script>
+
+<template>
+  <transition name="fade">
+    <div class="snackbar" v-if="visible">
+      <slot></slot>
+    </div>
+  </transition>
+</template>
 
 <style lang="scss" scoped>
 .snackbar {

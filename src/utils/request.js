@@ -2,19 +2,17 @@ const REQUEST_TIMEOUT = process.env.VUE_APP_REQUEST_TIMEOUT || 5000
 
 export default (route, body = {}, method = 'GET') => {
   const request = new Promise((resolve, reject) => {
-    const headers = new Headers({
-      'Content-Type': 'application/json'
-    })
-
     const requestDetails = {
       method,
       mode: 'cors',
-      headers
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }
 
     if (method !== 'GET') requestDetails.body = JSON.stringify(body)
 
-    function handleErrors(response) {
+    function handleResponse(response) {
       if (response.ok) {
         return response.json()
       } else {
@@ -23,7 +21,7 @@ export default (route, body = {}, method = 'GET') => {
     }
 
     return fetch(`${route}`, requestDetails)
-      .then(handleErrors)
+      .then(handleResponse)
       .then(resolve)
       .catch(reject)
   })

@@ -1,5 +1,14 @@
 import Vue from 'vue'
 import App from './app.vue'
+import VueMq from 'vue-mq'
+
+Vue.use(VueMq, {
+  breakpoints: {
+    sm: 760,
+    md: 1024,
+    lg: Infinity
+  }
+})
 
 Vue.config.productionTip = false
 

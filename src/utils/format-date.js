@@ -9,5 +9,5 @@ export default item => {
   const day = shouldPrependWithZero(date.getDay())
   const month = shouldPrependWithZero(date.getMonth() + 1)
 
-  return `${day}-${month}-${date.getFullYear()}`
+  return `${date.getFullYear()}`
 }

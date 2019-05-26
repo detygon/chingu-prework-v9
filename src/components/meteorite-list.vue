@@ -14,11 +14,13 @@
           </tr>
         </thead>
         <tbody class="data-table-content">
-          <slot v-if="!results.length">
-            <span>
-              No results
-            </span>
-          </slot>
+          <tr class="data-table-row" v-if="!results.length">
+            <td class="table-datacell" :colspan="columns.length">
+              <slot name="empty">
+                No results
+              </slot>
+            </td>
+          </tr>
           <tr
             class="data-table-row"
             v-for="(datum, index) in results"
@@ -73,7 +75,7 @@ export default {
     perPage: 10,
     currentPage: 0,
     columns: [
-      { name: 'id', label: 'ID' },
+      // { name: 'id', label: 'ID' },
       { name: 'name', label: 'Name' },
       { name: 'nametype', label: 'Name Type' },
       { name: 'recclass', label: 'Rect Class' },
@@ -123,7 +125,9 @@ export default {
         this.$emit('showMore', { offset: this.totalItems, limit: this.perPage })
       }
 
-      this.currentPage += 1
+      if ((!this.disableFetch || this.disableFetch) && this.results.length) {
+        this.currentPage += 1
+      }
     },
     showPrevious() {
       if (!this.hasPrevious) {
@@ -143,10 +147,11 @@ export default {
   border-radius: 2px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   font-family: 'Roboto', sans-serif;
-  font-size: 13px;
+  font-size: 1.3rem;
   font-weight: 400;
   width: auto;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 .main-table-wrapper {
@@ -178,27 +183,23 @@ export default {
 
 .data-table-header {
   tr {
-    height: 64px;
-    padding: 0 24px;
+    height: 6.4rem;
+    padding: 0 2.4rem;
+    background: #451fce;
 
     td {
-      color: rgba(0, 0, 0, 0.54);
-      font-size: 12px;
-      font-weight: 500;
+      color: white;
+      font-size: 1.4rem;
+      font-weight: bold;
+      text-transform: uppercase;
       vertical-align: middle;
-
-      .material-icons {
-        font-size: 18px;
-        vertical-align: middle;
-        padding-right: 8px;
-      }
     }
   }
 }
 
 .data-table-content {
   tr {
-    height: 48px;
+    height: 4.8rem;
     cursor: pointer;
 
     &:hover {
@@ -214,31 +215,31 @@ export default {
 
 .main-table-footer {
   color: rgba(0, 0, 0, 0.54);
-  font-size: 12px;
+  font-size: 1.2rem;
   text-align: right;
-  padding: 22px 0;
+  padding: 2.2rem 0;
   span {
     vertical-align: middle;
     .material-icons {
-      font-size: 24px;
+      font-size: 2.4rem;
       vertical-align: middle;
       cursor: pointer;
     }
     &.rows-selection {
-      padding-right: 32px;
+      padding-right: 3.2rem;
       .rows-selection-label {
-        padding-right: 38px;
+        padding-right: 3.8rem;
       }
     }
 
     &.rows-amount {
-      padding-right: 32px;
+      padding-right: 3.2rem;
     }
 
     &.table-pagination {
-      padding-right: 14px;
+      padding-right: 1.4rem;
       .material-icons:first-child {
-        padding-right: 24px;
+        padding-right: 2.4rem;
       }
     }
   }

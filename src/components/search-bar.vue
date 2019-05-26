@@ -10,7 +10,10 @@
       <datalist id="terms" class="datalist">
         <option v-for="(item, key) in searchHistory" :key="key" :value="item" />
       </datalist>
-      <button type="submit" :class="$style.submitBtn">Search</button>
+      <button type="submit" :class="$style.submitBtn">
+        <i class="material-icons">search</i>
+        <span v-if="$mq === 'md' || $mq === 'lg'">Search</span>
+      </button>
     </form>
   </div>
 </template>
@@ -67,5 +70,11 @@ export default {
   font-size: 19px;
   padding: 1rem 2rem;
   text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+
+  &:focus {
+    outline: none;
+  }
 }
 </style>

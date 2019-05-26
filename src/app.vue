@@ -15,8 +15,8 @@
         {{ errorMessage }}
       </ErrorMessage>
       <MeteoriteList
-        :data="results"
-        :disableFetch="!!this.searchValue.length"
+        :data="meteorites"
+        :disableFetch="this.searchValue.length > 0"
         @showMore="handleShowMore"
         v-show="!loading && !errorMessage"
       />
@@ -50,35 +50,37 @@ export default {
     loading: false
   }),
   async created() {
-    this.meteorites = await this.getMeteorites({ limit: 10 })
-  },
-  computed: {
-    results() {
-      const includesSearchTerm = item => {
-        return item.name.toLowerCase().includes(this.searchValue)
-      }
-
-      const sortByName = (current, next) => {
-        if (current.name < next.name) return -1
-        if (current.name > next.name) return 1
-        return 0
-      }
-
-      return this.meteorites.filter(includesSearchTerm).sort(sortByName)
-    }
+    this.meteorites = await this.getMeteorites({ limit: 50 })
   },
   methods: {
-    handleSearch(value) {
-      this.searchValue = value.toLowerCase()
+    async handleSearch(value) {
+      if (!value) {
+        this.searchValue = value
+        let data = await this.getMeteorites({ limit: 50 })
+        this.meteorites = [...data]
+        return
+      }
+
+      let data = await this.getMeteorites({
+        where: { name: value }
+      })
+
+      this.searchValue = value
+      this.meteorites = [...data]
     },
     async handleShowMore({ limit, offset }) {
       const data = await this.getMeteorites({ limit, offset })
       this.meteorites = [...this.meteorites, ...data]
     },
-    async getMeteorites({ limit, offset = 0 }) {
-      let url = `https://data.nasa.gov/api/id/gh4g-9sfh.json?`
-      url += `&$limit=${limit}`
-      url += `&$offset=${offset}`
+    async getMeteorites({ limit = 10, offset = 0, where = {} }) {
+      let url = `https://data.nasa.gov/api/id/gh4g-9sfh.json?$order=\`name\`+ASC`
+
+      if (Object.keys(where).length === 0) {
+        url += `&$limit=${limit}`
+        url += `&$offset=${offset}`
+      }
+
+      url = where.name ? url + `&$where=name like '%25${where.name}%25'` : url
 
       try {
         this.loading = true
@@ -124,22 +126,23 @@ header {
 #app {
   position: relative;
 }
-</style>
 
-.<style lang="scss" scoped>
 .content {
   margin: 0 auto;
   width: 80%;
 }
 
+@media only screen and (max-width: 1200px) {
+  .content {
+    padding: 1rem;
+    width: 100%;
+  }
+}
+</style>
+
+.<style lang="scss" scoped>
 .loader-wrapper {
   height: 55rem;
   margin: 0 auto;
-}
-
-@media (max-width: 900px) {
-  .content {
-    width: 100%;
-  }
 }
 </style>
