@@ -62,10 +62,11 @@ export default {
       }
 
       let data = await this.getMeteorites({
-        where: { name: value }
+        where: { name: value.toLowerCase() }
       })
 
       this.searchValue = value
+      console.log(data)
       this.meteorites = [...data]
     },
     async handleShowMore({ limit, offset }) {
@@ -81,7 +82,7 @@ export default {
       }
 
       url = where.name
-        ? url + `&$where=LOWER(name) like '%25${where.name.toLowerCase()}%25'`
+        ? url + `&$where=LOWER(name) like '%25${where.name}%25'`
         : url
 
       try {

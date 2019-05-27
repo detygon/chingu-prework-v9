@@ -28,12 +28,15 @@ export default {
     }
   },
   methods: {
+    sanitizeInput(value) {
+      return value.replace(/[^\w]/g, '')
+    },
     onSubmit() {
       // Limits to the last 10 searches
       if (this.searchHistory.indexOf(this.searchTerm) === -1) {
         this.searchHistory = [...this.searchHistory, this.searchTerm].slice(-10)
       }
-      this.$emit('search', this.searchTerm.trim())
+      this.$emit('search', this.sanitizeInput(this.searchTerm).trim())
     }
   }
 }
