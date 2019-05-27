@@ -80,7 +80,9 @@ export default {
         url += `&$offset=${offset}`
       }
 
-      url = where.name ? url + `&$where=name like '%25${where.name}%25'` : url
+      url = where.name
+        ? url + `&$where=LOWER(name) like '%25${where.name.toLowerCase()}%25'`
+        : url
 
       try {
         this.loading = true

@@ -33,7 +33,7 @@ export default {
       if (this.searchHistory.indexOf(this.searchTerm) === -1) {
         this.searchHistory = [...this.searchHistory, this.searchTerm].slice(-10)
       }
-      this.$emit('search', this.searchTerm)
+      this.$emit('search', this.searchTerm.trim())
     }
   }
 }
